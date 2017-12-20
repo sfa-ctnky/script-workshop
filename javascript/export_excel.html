@@ -1,0 +1,57 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <title>page title</title>
+    <!-- Türkçe Karakter Uyumu olması açısından zorunlu bir alandır!-->
+    <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8" />
+</head>
+
+<body>
+    <!--Excel Export etmek için kullanılacak button-->
+    <input type="button" onclick="tableToExcel('myTable', 'W3C Example Table')" value="Export to Excel">
+    <table id="myTable">
+        <!--Table için mutlaka id verilmeli fonksiyonda kullanılıyor-->
+        <thead>
+            <tr>
+                <th>Sıra Numarası</th>
+                <th>Bölünmüş Vergi No</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>ÖÇ-Tr1234</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>ÖÜİİ-Tr1234</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>ÖĞ-Tr1234</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>ÖŞ-Tr1234</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+<!--Bu script sadece chrome da çalışır durumdadır, Microsoft edge'de çalışmamakatadır, firefox ve explorerda denenmedi-->
+<script>
+    var tableToExcel = (function () {
+        var uri = 'data:application/vnd.ms-excel;base64,'
+            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+        return function (table, name) {
+            if (!table.nodeType) table = document.getElementById(table)
+            var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+            window.location.href = uri + base64(format(template, ctx))
+        }
+    })()
+
+</script>
+
+</html>
